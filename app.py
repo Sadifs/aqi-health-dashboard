@@ -560,7 +560,7 @@ Across 1,022 US counties (2017-2021):
 
     st.subheader("About this project")
     st.markdown("""
-This dashboard originated from research conducted in BSAN 6050: Advanced Business Analytics at Loyola Marymount University and has been extended into an interactive public tool.
+This dashboard originated from research conducted in BSAN 6050 at Loyola Marymount University and has been extended into an interactive public tool.
 
 **Author:** Sadaf Sarbazi, M.Env.Sc. (University of Toronto), M.S. Business Analytics (Loyola Marymount University)
 
