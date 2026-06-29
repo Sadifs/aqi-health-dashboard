@@ -2,7 +2,7 @@
 
 Interactive county-level analysis of air pollution exposure, socioeconomic conditions, and chronic disease prevalence across the United States (2017-2021).
 
-**Live app:** https://aqi-health.streamlit.app
+**Live app:** [aqi-health.streamlit.app](https://aqi-health.streamlit.app)
 
 ## Core finding
 
