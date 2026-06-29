@@ -9,7 +9,7 @@ from urllib.request import urlopen
 import json
 
 st.set_page_config(
-    page_title="Air Quality, Poverty, and Health",
+    page_title="Air Quality, Poverty, and Chronic Disease",
     page_icon="",
     layout="wide"
 )
@@ -123,7 +123,7 @@ with tab_find:
     st.subheader("Pollution alone cannot explain chronic disease prevalence")
     st.markdown(
         "PM2.5 exposure by itself explains almost none of the county-level variation in chronic disease. "
-        "Adding three socioeconomic controls (poverty rate, median household income, educational attainment) "
+        "Adding two socioeconomic controls (poverty rate and median household income) "
         "raises explanatory power by 50 to 65 percentage points across all outcomes."
     )
 
@@ -183,7 +183,7 @@ with tab_find:
 
     # RIGHT: adjusted
     with col_right:
-        st.markdown("#### With poverty, income, and education controls")
+        st.markdown("#### With poverty and income controls")
         r2_a = m_a.rsquared
         st.metric(
             label=f"R-squared: SES-adjusted model predicts {outcome_label}",
@@ -226,7 +226,8 @@ with tab_find:
         st.plotly_chart(fig_a, use_container_width=True)
         st.caption(
             "Partial regression plot: variation in each variable after removing the linear "
-            "effect of poverty rate, income, and education. Color indicates county poverty rate."
+            "effect of poverty rate and median income. Color indicates county poverty rate. "
+            "Source: EPA AQI, CDC PLACES, Census SAIPE (2017-2021)."
         )
 
     st.divider()
@@ -382,7 +383,7 @@ with tab_clust:
 Pollution exposure is moderate to low.
 
 **Mid-burden:** Middle-income counties with intermediate health and pollution outcomes.
-The largest and most heterogeneous group.
+The most geographically dispersed group, with intermediate health and pollution outcomes.
 
 **High-burden:** Lower incomes, higher poverty rates, and elevated chronic disease prevalence.
 Often in Appalachia, the Mississippi Delta, and the rural South.
@@ -487,7 +488,7 @@ with tab_explore:
         fig_ex.add_trace(go.Scatter(
             x=xr, y=yr, mode="lines",
             line=dict(color="black", width=1.5, dash="dash"),
-            name=f"OLS (r={r_ex:.2f}, p={'<0.001' if p_ex < 0.001 else f'{p_ex:.3f}'})",
+            name=f"OLS (r={r_ex:.2f}, p {'< 0.001' if p_ex < 0.001 else f'= {p_ex:.3f}'})",
         ))
 
     fig_ex.update_layout(margin=dict(l=20, r=20, t=20, b=20))
@@ -507,9 +508,9 @@ with tab_methods:
     st.markdown("""
 | Source | Description | Years | Coverage |
 |--------|-------------|-------|----------|
-| EPA Air Quality System | County-level AQI, PM2.5, ozone, NO2 monitoring data | 2017-2021 | 1,061 monitored counties |
-| CDC PLACES | County-level prevalence estimates for 27 chronic conditions | 2017-2021 | 3,144 counties |
-| Census SAIPE 2021 | County-level poverty rate and median household income estimates | 2021 | All US counties |
+| [EPA Air Quality System](https://www.epa.gov/aqs) | County-level AQI, PM2.5, ozone, NO2 monitoring data | 2017-2021 | 1,061 monitored counties |
+| [CDC PLACES](https://www.cdc.gov/places) | County-level prevalence estimates for 27 chronic conditions | 2017-2021 | 3,144 counties |
+| [Census SAIPE 2021](https://www.census.gov/programs-surveys/saipe.html) | County-level poverty rate and median household income estimates | 2021 | All US counties |
 
 **Processing:** 5-year averages computed for EPA and PLACES (2017-2021). SAIPE 2021 used for socioeconomic variables. Counties merged on FIPS code. Final dataset: 1,022 counties with complete data across all three sources.
 """)
@@ -533,7 +534,7 @@ Across 1,022 US counties (2017-2021):
 
 1. **PM2.5 alone has near-zero explanatory power.** R-squared values from simple AQI regressions range from 0.000 to 0.03 across all eight chronic disease outcomes. Air quality monitoring data, by itself, does not predict where chronic disease burden is highest.
 
-2. **Socioeconomic controls explain 55-68% of variance.** Adding county-level poverty rate, median household income, and educational attainment raises R-squared to 0.55-0.68 across health outcomes, representing a gain of 50 to 65 percentage points.
+2. **Socioeconomic controls explain 55-68% of variance.** Adding county-level poverty rate and median household income raises R-squared to 0.55-0.68 across health outcomes, representing a gain of 50 to 65 percentage points.
 
 3. **Three structurally distinct community types exist.** K-means clustering identifies low-burden (higher income, lower poverty), mid-burden, and high-burden (lower income, higher poverty, higher disease) county profiles that are geographically concentrated but appear in every region of the country.
 
@@ -544,9 +545,9 @@ Across 1,022 US counties (2017-2021):
     st.markdown("""
 - **Ecological fallacy.** County-level correlations do not imply individual-level causation.
 - **Monitor placement bias.** EPA monitoring stations are not randomly placed; rural and lower-income counties are underrepresented in the EPA AQI dataset.
-- **Socioeconomic confounding not fully resolved.** The adjusted model controls for three SES dimensions but does not capture healthcare access, occupational exposure, dietary factors, or historical redlining.
+- **Socioeconomic confounding not fully resolved.** The adjusted model controls for two SES dimensions (poverty rate and median income) but does not capture educational attainment, healthcare access, occupational exposure, dietary factors, or historical redlining.
 - **Cross-sectional design.** This analysis cannot establish temporal ordering between pollution exposure and health outcomes.
-- **Education not included.** The current SES-adjusted model uses poverty rate and median income (SAIPE) but does not include an educational attainment control. Adding a measure such as share without a high school diploma would improve model specification.
+- **Educational attainment not modeled.** Adding a measure such as share of adults without a high school diploma would improve model specification and is a proposed extension.
 """)
 
     st.subheader("Proposed extensions")
@@ -559,10 +560,10 @@ Across 1,022 US counties (2017-2021):
 
     st.subheader("About this project")
     st.markdown("""
-This dashboard was developed from original research completed in BSAN 6050 (Advanced Business Analytics)
-at Loyola Marymount University.
+This dashboard originated from research conducted in BSAN 6050 (Advanced Business Analytics)
+at Loyola Marymount University and has been extended into an interactive public tool.
 
 **Author:** Sadaf Sarbazi, M.Env.Sc. (University of Toronto), M.S. Business Analytics (Loyola Marymount University)
-**Contact:** sadaf.sarbazi@icloud.com
+**Contact:** sadaf.sarbazi@yahoo.com
 **GitHub:** [github.com/Sadifs/aqi-health-dashboard](https://github.com/Sadifs/aqi-health-dashboard)
 """)
