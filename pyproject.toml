@@ -1,0 +1,14 @@
+[project]
+name = "aqi-health-dashboard"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "openpyxl>=3.1.5",
+    "pandas>=3.0.3",
+    "plotly>=6.8.0",
+    "scikit-learn>=1.9.0",
+    "scipy>=1.18.0",
+    "statsmodels>=0.14.6",
+    "streamlit>=1.58.0",
+]
