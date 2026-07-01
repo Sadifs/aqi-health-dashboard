@@ -56,5 +56,7 @@ Asthma, COPD, coronary heart disease, diabetes, stroke, poor mental health days,
 
 Sadaf Sarbazi
 M.Env.Sc., University of Toronto
+
 M.S. Business Analytics, Loyola Marymount University
+
 [linkedin.com/in/sadaf-sarbazi](https://linkedin.com/in/sadaf-sarbazi)
