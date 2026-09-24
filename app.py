@@ -525,9 +525,10 @@ with tab_growth:
     st.dataframe(direct_display.round(4).reset_index(drop=True), use_container_width=True)
     st.markdown(
         "The net effect of growth is mixed rather than uniformly protective or harmful: growth is associated "
-        "with significantly lower asthma, COPD, and smoking, but significantly higher diabetes and poor "
-        "physical health. Growth does not act as a single, simple force on community health, it operates "
-        "through two real, competing channels whose balance shifts by condition."
+        "with significantly lower asthma, COPD, and smoking, but significantly higher diabetes, stroke, and "
+        "poor physical health, with mental health showing no significant direct effect. Growth does not act "
+        "as a single, simple force on community health, it operates through two real, competing channels "
+        "whose balance shifts by condition."
     )
     st.caption("Source: U.S. Census Bureau, County Business Patterns (2017, 2021).")
 
