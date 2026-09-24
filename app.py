@@ -136,7 +136,7 @@ with tab_find:
     st.markdown(
         "PM2.5 exposure by itself explains almost none of the county-level variation in chronic disease. "
         "Adding two socioeconomic controls (poverty rate and median household income) "
-        "raises explanatory power by 50 to 65 percentage points across all outcomes."
+        "raises explanatory power by 31 to 67 percentage points across all outcomes."
     )
 
     outcome_label = st.selectbox("Select health outcome", list(HEALTH.keys()), key="find_outcome")
@@ -647,9 +647,9 @@ Socioeconomic controls sourced from SAIPE (Small Area Income and Poverty Estimat
     st.markdown("""
 Across 1,022 US counties (2017-2021):
 
-1. **PM2.5 alone has near-zero explanatory power.** R-squared values from simple AQI regressions range from 0.000 to 0.03 across all eight chronic disease outcomes. Air quality monitoring data, by itself, does not predict where chronic disease burden is highest.
+1. **PM2.5 alone has near-zero explanatory power.** R-squared values from simple AQI regressions range from 0.00 to 0.04 across all eight chronic disease outcomes. Air quality monitoring data, by itself, does not predict where chronic disease burden is highest.
 
-2. **Socioeconomic controls explain 55-68% of variance.** Adding county-level poverty rate and median household income raises R-squared to 0.55-0.68 across health outcomes, representing a gain of 50 to 65 percentage points.
+2. **Socioeconomic controls explain 32-69% of variance.** Adding county-level poverty rate and median household income raises R-squared to 0.32-0.69 across health outcomes, representing a gain of 31 to 67 percentage points.
 
 3. **Three structurally distinct community types exist.** K-means clustering identifies low-burden (higher income, lower poverty), mid-burden, and high-burden (lower income, higher poverty, higher disease) county profiles that are geographically concentrated but appear in every region of the country.
 

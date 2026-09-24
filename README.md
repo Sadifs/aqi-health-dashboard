@@ -6,7 +6,7 @@ Interactive county-level analysis of air pollution exposure, socioeconomic condi
 
 ## Core finding
 
-PM2.5 air pollution exposure alone explains near-zero variance in county-level chronic disease burden (R-squared 0.000 to 0.03). Adding socioeconomic controls, poverty rate, median household income, and educational attainment, raises R-squared to 0.55-0.68 across all eight health outcomes. Poverty, not pollution exposure, is the primary predictor of chronic disease at the county level.
+PM2.5 air pollution exposure alone explains near-zero variance in county-level chronic disease burden (R-squared 0.00 to 0.04). Adding socioeconomic controls, poverty rate, median household income, and educational attainment, raises R-squared to 0.32-0.69 across all eight health outcomes (a gain of 31 to 67 percentage points). Poverty, not pollution exposure, is the primary predictor of chronic disease at the county level.
 
 **Extension:** does local economic growth help or hurt this picture? County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty conditions, confirming two real, competing channels. The income/poverty channel is 15 to over 100 times larger in magnitude, and growth's net effect on health is mixed rather than uniform, protective for asthma, COPD, and smoking, harmful for diabetes and poor physical health.
 
