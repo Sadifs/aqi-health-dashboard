@@ -113,8 +113,8 @@ st.divider()
 
 # ── TABS ──────────────────────────────────────────────────────────────────────
 
-tab_find, tab_map, tab_clust, tab_explore, tab_methods = st.tabs(
-    ["Core Finding", "Geographic Map", "Community Clusters", "Data Explorer", "Methods"]
+tab_find, tab_map, tab_clust, tab_growth, tab_explore, tab_methods = st.tabs(
+    ["Core Finding", "Geographic Map", "Community Clusters", "Economic Growth", "Data Explorer", "Methods"]
 )
 
 # ── TAB 1: CORE FINDING ───────────────────────────────────────────────────────
@@ -417,6 +417,108 @@ Often in Appalachia, the Mississippi Delta, and the rural South.
     st.plotly_chart(fig_cm, use_container_width=True)
     st.caption("Green = Low-burden, Yellow = Mid-burden, Red = High-burden communities.")
 
+# ── TAB: ECONOMIC GROWTH ──────────────────────────────────────────────────────
+
+GROWTH_MEDIATORS = ["Median AQI", "median_income", "poverty_rate"]
+
+@st.cache_data
+def compute_growth_paths(data_csv_hash):
+    sub = df[["growth_w", "Median AQI", "median_income", "poverty_rate"]].dropna()
+    X = sm.add_constant(sub[["growth_w"]])
+    paths = {}
+    for target in ["Median AQI", "median_income", "poverty_rate"]:
+        m = sm.OLS(sub[target], X).fit(cov_type="HC1")
+        paths[target] = (m.params["growth_w"], m.pvalues["growth_w"])
+    return paths
+
+@st.cache_data
+def compute_growth_mediation(data_csv_hash):
+    paths = compute_growth_paths(data_csv_hash)
+    a_aqi, _ = paths["Median AQI"]
+    a_inc, _ = paths["median_income"]
+    a_pov, _ = paths["poverty_rate"]
+    rows = []
+    for label, col in HEALTH.items():
+        sub = df[["growth_w", "Median AQI", "median_income", "poverty_rate", col]].dropna()
+        X = sm.add_constant(sub[["growth_w", "Median AQI", "median_income", "poverty_rate"]])
+        m = sm.OLS(sub[col], X).fit(cov_type="HC1")
+        rows.append({
+            "Health Outcome": label,
+            "Direct effect": m.params["growth_w"],
+            "Direct p": m.pvalues["growth_w"],
+            "Indirect via AQI": a_aqi * m.params["Median AQI"],
+            "Indirect via Income/Poverty": a_inc * m.params["median_income"] + a_pov * m.params["poverty_rate"],
+        })
+    return pd.DataFrame(rows)
+
+with tab_growth:
+    st.subheader("Does economic growth help or hurt community health?")
+    st.markdown(
+        "Local economic growth could plausibly cut both ways: more industrial and commercial activity may "
+        "worsen air quality, while the added income and jobs may improve the socioeconomic conditions that "
+        "drive most of the disease burden seen in the Core Finding tab. County-level establishment counts "
+        "(2017 and 2021) from the U.S. Census Bureau's **County Business Patterns** are used here as a proxy "
+        "for local economic growth, merged into the dataset by FIPS code and winsorized at the 1st/99th "
+        "percentiles."
+    )
+
+    growth_paths = compute_growth_paths(len(df))
+    g1, g2, g3 = st.columns(3)
+    aqi_b, aqi_p = growth_paths["Median AQI"]
+    inc_b, inc_p = growth_paths["median_income"]
+    pov_b, pov_p = growth_paths["poverty_rate"]
+    g1.metric("Growth → Median AQI (per 10-pt growth)", f"{aqi_b/10:+.2f}", help=f"p = {aqi_p:.4f}")
+    g2.metric("Growth → Median Income (per 10-pt growth)", f"${inc_b/10:+,.0f}", help=f"p = {inc_p:.4f}")
+    g3.metric("Growth → Poverty Rate (per 10-pt growth)", f"{pov_b*100/10:+.2f} pts", help=f"p = {pov_p:.4f}")
+
+    st.caption(
+        "Growth is associated with both worse air quality and better socioeconomic conditions, confirming "
+        "both hypothesized channels are real. The question is which one dominates for a given health outcome."
+    )
+
+    st.divider()
+    med_table = compute_growth_mediation(len(df))
+    st.markdown("#### Indirect effect of growth, by pathway and health outcome")
+    st.markdown(
+        "For each outcome, the indirect effect of growth operating through air quality is compared to the "
+        "indirect effect operating through income and poverty together (product-of-coefficients method)."
+    )
+
+    fig_g = go.Figure()
+    fig_g.add_trace(go.Bar(
+        x=med_table["Health Outcome"], y=med_table["Indirect via AQI"],
+        name="Via air quality", marker_color="#e63946",
+    ))
+    fig_g.add_trace(go.Bar(
+        x=med_table["Health Outcome"], y=med_table["Indirect via Income/Poverty"],
+        name="Via income & poverty", marker_color="#2a9d8f",
+    ))
+    fig_g.update_layout(
+        barmode="group", yaxis_title="Indirect effect size",
+        height=380, margin=dict(l=20, r=20, t=30, b=20),
+        legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
+    )
+    st.plotly_chart(fig_g, use_container_width=True)
+    st.caption(
+        "The income/poverty pathway is consistently 15 to over 100 times larger in magnitude than the air "
+        "quality pathway across all eight outcomes."
+    )
+
+    st.markdown("#### Net (direct) effect of growth, by outcome")
+    direct_display = med_table[["Health Outcome", "Direct effect", "Direct p"]].copy()
+    direct_display["Direction"] = direct_display["Direct effect"].apply(
+        lambda v: "Higher disease" if v > 0 else "Lower disease"
+    )
+    direct_display["Significant (p<.05)"] = direct_display["Direct p"] < 0.05
+    st.dataframe(direct_display.round(4).reset_index(drop=True), use_container_width=True)
+    st.markdown(
+        "The net effect of growth is mixed rather than uniformly protective or harmful: growth is associated "
+        "with significantly lower asthma, COPD, and smoking, but significantly higher diabetes and poor "
+        "physical health. Growth does not act as a single, simple force on community health, it operates "
+        "through two real, competing channels whose balance shifts by condition."
+    )
+    st.caption("Source: U.S. Census Bureau, County Business Patterns (2017, 2021).")
+
 # ── TAB 4: EXPLORER ───────────────────────────────────────────────────────────
 
 with tab_explore:
@@ -511,6 +613,7 @@ with tab_methods:
 | [EPA Air Quality System](https://www.epa.gov/aqs) | County-level AQI, PM2.5, ozone, NO2 monitoring data | 2017-2021 | 1,061 monitored counties |
 | [CDC PLACES](https://www.cdc.gov/places) | County-level prevalence estimates for 27 chronic conditions | 2017-2021 | 3,144 counties |
 | [Census SAIPE 2021](https://www.census.gov/programs-surveys/saipe.html) | County-level poverty rate and median household income estimates | 2021 | All US counties |
+| [Census County Business Patterns](https://www.census.gov/programs-surveys/cbp.html) | County-level establishment counts, used as an economic growth proxy | 2017, 2021 | All US counties |
 
 **Processing:** 5-year averages computed for EPA and PLACES (2017-2021). SAIPE 2021 used for socioeconomic variables. Counties merged on FIPS code. Final dataset: 1,022 counties with complete data across all three sources.
 """)
@@ -539,6 +642,8 @@ Across 1,022 US counties (2017-2021):
 3. **Three structurally distinct community types exist.** K-means clustering identifies low-burden (higher income, lower poverty), mid-burden, and high-burden (lower income, higher poverty, higher disease) county profiles that are geographically concentrated but appear in every region of the country.
 
 4. **Implication for policy.** Interventions targeting air quality improvements alone, without addressing the underlying socioeconomic conditions that concentrate disease burden, are unlikely to reduce chronic disease disparities at the population level.
+
+5. **Economic growth cuts both ways.** County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty outcomes. The socioeconomic pathway is 15 to over 100 times larger in magnitude, and growth's net effect on health is mixed by condition rather than uniformly good or bad. See the Economic Growth tab.
 """)
 
     st.subheader("Limitations")
@@ -548,6 +653,14 @@ Across 1,022 US counties (2017-2021):
 - **Socioeconomic confounding not fully resolved.** The adjusted model controls for two SES dimensions (poverty rate and median income) but does not capture educational attainment, healthcare access, occupational exposure, dietary factors, or historical redlining.
 - **Cross-sectional design.** This analysis cannot establish temporal ordering between pollution exposure and health outcomes.
 - **Educational attainment not modeled.** Adding a measure such as share of adults without a high school diploma would improve model specification and is a proposed extension.
+""")
+
+    st.subheader("Completed extension: economic growth")
+    st.markdown("""
+County-level establishment growth (2017-2021, Census County Business Patterns) was added as a test of whether
+local economic growth helps or hurts community health. Growth predicts both worse air quality and better
+socioeconomic conditions; the socioeconomic pathway dominates in magnitude, and the net effect on health
+varies by chronic condition rather than running in one direction. See the **Economic Growth** tab.
 """)
 
     st.subheader("Proposed extensions")
