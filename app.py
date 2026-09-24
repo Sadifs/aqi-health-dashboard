@@ -16,8 +16,20 @@ st.set_page_config(
 
 # ── DATA ──────────────────────────────────────────────────────────────────────
 
+import os
+
+def _data_file_key():
+    """Cache-busting key that changes whenever data/final_data.csv is edited,
+    so a data update (new columns, new rows) always invalidates every
+    @st.cache_data function below, even if their own source code is
+    unchanged. Using len(df) alone is not sufficient: a data update that adds
+    columns without changing the row count (e.g. this file's own commit
+    history) leaves len(df) unchanged and silently keeps stale cached
+    results, which caused a KeyError on growth_w after that specific push."""
+    return os.path.getmtime("data/final_data.csv")
+
 @st.cache_data
-def load_data():
+def load_data(_key):
     df = pd.read_csv("data/final_data.csv", dtype={"fips": str})
     df["fips"] = df["fips"].astype(str).str.zfill(5)
     df["income_k"] = df["median_income"] / 1000
@@ -34,7 +46,7 @@ def load_geojson():
 SES_CONTROLS = ["poverty_rate", "income_k"]
 
 @st.cache_data
-def compute_all_regressions(data_csv_hash):
+def compute_all_regressions(_key):
     results = []
     for label, col in HEALTH.items():
         sub = df[[col, "Median AQI"] + SES_CONTROLS].dropna()
@@ -52,7 +64,7 @@ def compute_all_regressions(data_csv_hash):
         })
     return pd.DataFrame(results)
 
-df = load_data()
+df = load_data(_data_file_key())
 counties_geo = load_geojson()
 
 # ── LABELS ────────────────────────────────────────────────────────────────────
@@ -234,7 +246,7 @@ with tab_find:
     st.markdown("#### R-squared across all health outcomes")
     st.markdown("How much of the county-level variance each model explains:")
 
-    reg_table = compute_all_regressions(len(df))
+    reg_table = compute_all_regressions(_data_file_key())
     reg_table = reg_table.sort_values("Adjusted R2", ascending=False)
 
     fig_r2 = go.Figure()
@@ -422,7 +434,7 @@ Often in Appalachia, the Mississippi Delta, and the rural South.
 GROWTH_MEDIATORS = ["Median AQI", "median_income", "poverty_rate"]
 
 @st.cache_data
-def compute_growth_paths(data_csv_hash):
+def compute_growth_paths(_key):
     sub = df[["growth_w", "Median AQI", "median_income", "poverty_rate"]].dropna()
     X = sm.add_constant(sub[["growth_w"]])
     paths = {}
@@ -432,8 +444,8 @@ def compute_growth_paths(data_csv_hash):
     return paths
 
 @st.cache_data
-def compute_growth_mediation(data_csv_hash):
-    paths = compute_growth_paths(data_csv_hash)
+def compute_growth_mediation(_key):
+    paths = compute_growth_paths(_key)
     a_aqi, _ = paths["Median AQI"]
     a_inc, _ = paths["median_income"]
     a_pov, _ = paths["poverty_rate"]
@@ -462,7 +474,7 @@ with tab_growth:
         "percentiles."
     )
 
-    growth_paths = compute_growth_paths(len(df))
+    growth_paths = compute_growth_paths(_data_file_key())
     g1, g2, g3 = st.columns(3)
     aqi_b, aqi_p = growth_paths["Median AQI"]
     inc_b, inc_p = growth_paths["median_income"]
@@ -477,7 +489,7 @@ with tab_growth:
     )
 
     st.divider()
-    med_table = compute_growth_mediation(len(df))
+    med_table = compute_growth_mediation(_data_file_key())
     st.markdown("#### Indirect effect of growth, by pathway and health outcome")
     st.markdown(
         "For each outcome, the indirect effect of growth operating through air quality is compared to the "
