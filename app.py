@@ -34,6 +34,12 @@ def load_data(_key):
     df["fips"] = df["fips"].astype(str).str.zfill(5)
     df["income_k"] = df["median_income"] / 1000
     df["poverty_pct"] = df["poverty_rate"] * 100
+    # CDC PLACES prevalence columns are stored as fractions (0.073 = 7.3%). Convert them to percentages so
+    # every display labeled "%" is correct. R-squared, correlations, p-values, and the mediation pathway
+    # ratios are scale-invariant, so no analytical result changes.
+    for col in ["asthma_pct", "heart_disease_pct", "copd_pct", "diabetes_pct", "stroke_pct",
+                "poor_mental_health_pct", "poor_physical_health_pct", "smoking_pct"]:
+        df[col] = df[col] * 100
     return df
 
 @st.cache_data
