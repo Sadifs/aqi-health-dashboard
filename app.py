@@ -140,7 +140,7 @@ tab_find, tab_map, tab_clust, tab_growth, tab_explore, tab_methods = st.tabs(
 with tab_find:
     st.subheader("Pollution alone cannot explain chronic disease prevalence")
     st.markdown(
-        "PM2.5 exposure by itself explains almost none of the county-level variation in chronic disease. "
+        "Air quality (median AQI) by itself explains almost none of the county-level variation in chronic disease. "
         "Adding two socioeconomic controls (poverty rate and median household income) "
         "raises explanatory power by 31 to 67 percentage points across all outcomes."
     )
@@ -259,7 +259,7 @@ with tab_find:
     fig_r2.add_trace(go.Bar(
         x=reg_table["Health Outcome"],
         y=reg_table["Simple R2"],
-        name="PM2.5 alone",
+        name="AQI alone",
         marker_color="#e63946",
     ))
     fig_r2.add_trace(go.Bar(
@@ -654,7 +654,7 @@ Socioeconomic controls sourced from SAIPE (Small Area Income and Poverty Estimat
     st.markdown("""
 Across 1,022 US counties (2017-2021):
 
-1. **PM2.5 alone has near-zero explanatory power.** R-squared values from simple AQI regressions range from 0.00 to 0.04 across all eight chronic disease outcomes. Air quality monitoring data, by itself, does not predict where chronic disease burden is highest.
+1. **Air quality alone has near-zero explanatory power.** R-squared values from simple AQI regressions range from 0.00 to 0.04 across all eight chronic disease outcomes. Air quality monitoring data, by itself, does not predict where chronic disease burden is highest.
 
 2. **Socioeconomic controls explain 32-69% of variance.** Adding county-level poverty rate and median household income raises R-squared to 0.32-0.69 across health outcomes, representing a gain of 31 to 67 percentage points.
 
