@@ -105,8 +105,8 @@ with st.sidebar:
     state_filter = st.multiselect("State(s)", STATES, default=[], placeholder="All states")
     st.divider()
     st.caption(
-        "Data: EPA AQI (2017-2021), CDC PLACES (2017-2021), "
-        "Census SAIPE 2021. County-level 5-year averages."
+        "Data: EPA AQI (2017-2021), CDC PLACES (2018-2021), "
+        "Census SAIPE 2021. County-level multi-year averages."
     )
     st.caption(f"{len(df):,} counties across 50 states.")
 
@@ -245,7 +245,7 @@ with tab_find:
         st.caption(
             "Partial regression plot: variation in each variable after removing the linear "
             "effect of poverty rate and median income. Color indicates county poverty rate. "
-            "Source: EPA AQI, CDC PLACES, Census SAIPE (2017-2021)."
+            "Source: EPA AQI (2017-2021), CDC PLACES (2018-2021), Census SAIPE (2021)."
         )
 
     st.divider()
@@ -632,11 +632,11 @@ with tab_methods:
 | Source | Description | Years | Coverage |
 |--------|-------------|-------|----------|
 | [EPA Air Quality System](https://www.epa.gov/aqs) | County-level AQI, PM2.5, ozone, NO2 monitoring data | 2017-2021 | 1,061 monitored counties |
-| [CDC PLACES](https://www.cdc.gov/places) | County-level prevalence estimates for 27 chronic conditions | 2017-2021 | 3,144 counties |
+| [CDC PLACES](https://www.cdc.gov/places) | County-level prevalence estimates for 27 chronic conditions | 2018-2021 (2020-2023 releases) | 3,144 counties |
 | [Census SAIPE 2021](https://www.census.gov/programs-surveys/saipe.html) | County-level poverty rate and median household income estimates | 2021 | All US counties |
 | [Census County Business Patterns](https://www.census.gov/programs-surveys/cbp.html) | County-level establishment counts, used as an economic growth proxy | 2017, 2021 | All US counties |
 
-**Processing:** 5-year averages computed for EPA and PLACES (2017-2021). SAIPE 2021 used for socioeconomic variables. Counties merged on FIPS code. Final dataset: 1,022 counties with complete data across all three sources.
+**Processing:** Averages computed for EPA (2017-2021) and PLACES (2018-2021; PLACES has no 2017 county estimates for these outcomes). PLACES values are the mean of crude and age-adjusted prevalence. SAIPE 2021 used for socioeconomic variables. Counties merged on FIPS code. Final dataset: 1,022 counties with complete data across all three sources.
 """)
 
     st.subheader("Regression methodology")
@@ -673,7 +673,8 @@ Across 1,022 US counties (2017-2021):
 - **Monitor placement bias.** EPA monitoring stations are not randomly placed; rural and lower-income counties are underrepresented in the EPA AQI dataset.
 - **Socioeconomic confounding not fully resolved.** The adjusted model controls for two SES dimensions (poverty rate and median income) but does not capture educational attainment, healthcare access, occupational exposure, dietary factors, or historical redlining.
 - **Cross-sectional design.** This analysis cannot establish temporal ordering between pollution exposure and health outcomes.
-- **Timing of socioeconomic data.** Poverty and income are from SAIPE 2021 only, while AQI and health outcomes are 2017-2021 averages.
+- **Timing of socioeconomic data.** Poverty and income are from SAIPE 2021 only, while AQI is a 2017-2021 average and health outcomes are 2018-2021 averages.
+- **Mixed estimate types.** PLACES values average crude and age-adjusted prevalence; using one estimate type consistently would be cleaner.
 - **Mediation uncertainty.** Indirect effects are point estimates; bootstrapped confidence intervals have not yet been computed.
 - **Educational attainment not modeled.** Adding a measure such as share of adults without a high school diploma would improve model specification and is a proposed extension.
 """)
@@ -689,7 +690,7 @@ disease for all eight outcomes, while the remaining direct effect varies by chro
     st.subheader("Proposed extensions")
     st.markdown("""
 1. **Behavioral and access mediators.** Add Google Trends search volume for health-related terms (smoking, fast food, mental health) and CMS/HRSA measures of healthcare access as mediating variables between SES and health outcomes.
-2. **Longitudinal panel analysis.** Test whether counties that improved AQI between 2017 and 2021 saw corresponding health improvements, and whether improvement was moderated by SES level (interaction between AQI change and poverty rate).
+2. **Longitudinal panel analysis.** Test whether counties that improved AQI between 2018 and 2021 saw corresponding health improvements, and whether improvement was moderated by SES level (interaction between AQI change and poverty rate).
 3. **Spatial regression.** Apply a spatial lag or spatial error model to account for geographic autocorrelation in both pollution and health outcomes.
 4. **Sub-county resolution.** Expand to ZIP code or census tract level using CDC PLACES tract-level data and EPA monitoring interpolation.
     """)

@@ -24,7 +24,7 @@ Air quality (county median AQI) alone explains near-zero variance in county-leve
 | Source | Description | Coverage |
 |--------|-------------|----------|
 | [EPA Air Quality System](https://www.epa.gov/outdoor-air-quality-data) | Annual county-level AQI, PM2.5, ozone, NO2 monitoring data (2017-2021) | 1,061 monitored counties |
-| [CDC PLACES](https://www.cdc.gov/places/) | County-level prevalence estimates for 27 chronic conditions (2017-2021) | 3,144 counties |
+| [CDC PLACES](https://www.cdc.gov/places/) | County-level prevalence estimates for 27 chronic conditions (2018-2021; 2020-2023 releases, mean of crude and age-adjusted) | 3,144 counties |
 | [US Census SAIPE](https://www.census.gov/programs-surveys/saipe.html) | County median household income and poverty rate (2021) | All US counties |
 | [US Census County Business Patterns](https://www.census.gov/programs-surveys/cbp.html) | County-level establishment counts, used as an economic growth proxy | 2017, 2021 |
 
