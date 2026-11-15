@@ -8,14 +8,14 @@ Interactive county-level analysis of air pollution exposure, socioeconomic condi
 
 Air quality (county median AQI) alone explains near-zero variance in county-level chronic disease burden (R-squared 0.00 to 0.04). Adding two socioeconomic controls, poverty rate and median household income, raises R-squared to 0.32-0.69 across all eight health outcomes (a gain of 31 to 67 percentage points). Poverty, not pollution exposure, is the primary predictor of chronic disease at the county level.
 
-**Extension:** does local economic growth help or hurt this picture? County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty conditions, confirming two real, competing channels. The income/poverty channel is 15 to over 100 times larger in magnitude, and growth's net effect on health is mixed rather than uniform, protective for asthma, COPD, and smoking, harmful for diabetes and poor physical health.
+**Extension:** does local economic growth help or hurt this picture? County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty conditions, confirming two real, competing channels. The income/poverty channel is about 15 to 120 times larger in magnitude. Overall, growth goes with lower prevalence of all eight outcomes. Holding AQI, income, and poverty constant, the remaining direct effect is mixed: lower asthma, COPD, and smoking, but higher diabetes, stroke, and poor physical health, with no significant direct effect on heart disease or mental health.
 
 ## Dashboard tabs
 
 - **Core Finding:** Side-by-side comparison of simple vs. SES-adjusted OLS regression, R-squared comparison chart across all health outcomes, partial regression plots
 - **Geographic Map:** Choropleth maps of poverty rate, AQI, income, and disease prevalence by county
 - **Community Clusters:** K-means clustering (k=3) identifying low-burden, mid-burden, and high-burden county profiles; cluster map
-- **Economic Growth:** Tests whether county-level economic growth (2017-2021 establishment growth) helps or hurts community health, and through which pathway, worsening air quality or improving income and poverty. The income/poverty pathway dominates in magnitude; growth's net effect on health is mixed by condition.
+- **Economic Growth:** Tests whether county-level economic growth (2017-2021 establishment growth) helps or hurts community health, and through which pathway, worsening air quality or improving income and poverty. The income/poverty pathway dominates in magnitude; overall growth goes with lower disease, while the direct effect is mixed by condition.
 - **Data Explorer:** Custom scatter explorer for any variable pair with OLS overlay
 - **Methods:** Data sources, regression methodology, limitations, and proposed extensions
 
@@ -28,7 +28,7 @@ Air quality (county median AQI) alone explains near-zero variance in county-leve
 | [US Census SAIPE](https://www.census.gov/programs-surveys/saipe.html) | County median household income and poverty rate (2021) | All US counties |
 | [US Census County Business Patterns](https://www.census.gov/programs-surveys/cbp.html) | County-level establishment counts, used as an economic growth proxy | 2017, 2021 |
 
-Final merged dataset: 1,022 counties across 48 states.
+Final merged dataset: 1,022 counties across 50 states.
 
 ## Setup
 

@@ -108,7 +108,7 @@ with st.sidebar:
         "Data: EPA AQI (2017-2021), CDC PLACES (2017-2021), "
         "Census SAIPE 2021. County-level 5-year averages."
     )
-    st.caption(f"{len(df):,} counties across 48 states.")
+    st.caption(f"{len(df):,} counties across 50 states.")
 
 filtered = df[df["state_label"].isin(state_filter)] if state_filter else df.copy()
 
@@ -404,7 +404,7 @@ Pollution exposure is moderate to low.
 The most geographically dispersed group, with intermediate health and pollution outcomes.
 
 **High-burden:** Lower incomes, higher poverty rates, and elevated chronic disease prevalence.
-Often in Appalachia, the Mississippi Delta, and the rural South.
+About half are in the South, including Appalachia; many others are in rural California.
 """)
 
     st.divider()
@@ -518,11 +518,11 @@ with tab_growth:
     )
     st.plotly_chart(fig_g, use_container_width=True)
     st.caption(
-        "The income/poverty pathway is consistently 15 to over 100 times larger in magnitude than the air "
+        "The income/poverty pathway is about 15 to 120 times larger in magnitude than the air "
         "quality pathway across all eight outcomes."
     )
 
-    st.markdown("#### Net (direct) effect of growth, by outcome")
+    st.markdown("#### Direct effect of growth, by outcome (holding AQI, income, and poverty constant)")
     direct_display = med_table[["Health Outcome", "Direct effect", "Direct p"]].copy()
     direct_display["Direction"] = direct_display["Direct effect"].apply(
         lambda v: "Higher disease" if v > 0 else "Lower disease"
@@ -530,11 +530,11 @@ with tab_growth:
     direct_display["Significant (p<.05)"] = direct_display["Direct p"] < 0.05
     st.dataframe(direct_display.round(4).reset_index(drop=True), use_container_width=True)
     st.markdown(
-        "The net effect of growth is mixed rather than uniformly protective or harmful: growth is associated "
-        "with significantly lower asthma, COPD, and smoking, but significantly higher diabetes, stroke, and "
-        "poor physical health, with mental health showing no significant direct effect. Growth does not act "
-        "as a single, simple force on community health, it operates through two real, competing channels "
-        "whose balance shifts by condition."
+        "Overall (total effect), growth is associated with significantly lower prevalence of all eight "
+        "outcomes, and most of that benefit runs through higher income and lower poverty. Holding AQI, "
+        "income, and poverty constant, the remaining direct effect is mixed: significantly lower asthma, "
+        "COPD, and smoking, but significantly higher diabetes, stroke, and poor physical health, with no "
+        "significant direct effect on heart disease or mental health."
     )
     st.caption("Source: U.S. Census Bureau, County Business Patterns (2017, 2021).")
 
@@ -662,7 +662,7 @@ Across 1,022 US counties (2017-2021):
 
 4. **Implication for policy.** Interventions targeting air quality improvements alone, without addressing the underlying socioeconomic conditions that concentrate disease burden, are unlikely to reduce chronic disease disparities at the population level.
 
-5. **Economic growth cuts both ways.** County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty outcomes. The socioeconomic pathway is 15 to over 100 times larger in magnitude, and growth's net effect on health is mixed by condition rather than uniformly good or bad. See the Economic Growth tab.
+5. **Economic growth cuts both ways.** County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty outcomes. The socioeconomic pathway is about 15 to 120 times larger in magnitude. Overall, growth goes with lower disease for all eight outcomes; after holding AQI, income, and poverty constant, the remaining direct effect is mixed by condition. See the Economic Growth tab.
 """)
 
     st.subheader("Limitations")
@@ -671,6 +671,8 @@ Across 1,022 US counties (2017-2021):
 - **Monitor placement bias.** EPA monitoring stations are not randomly placed; rural and lower-income counties are underrepresented in the EPA AQI dataset.
 - **Socioeconomic confounding not fully resolved.** The adjusted model controls for two SES dimensions (poverty rate and median income) but does not capture educational attainment, healthcare access, occupational exposure, dietary factors, or historical redlining.
 - **Cross-sectional design.** This analysis cannot establish temporal ordering between pollution exposure and health outcomes.
+- **Timing of socioeconomic data.** Poverty and income are from SAIPE 2021 only, while AQI and health outcomes are 2017-2021 averages.
+- **Mediation uncertainty.** Indirect effects are point estimates; bootstrapped confidence intervals have not yet been computed.
 - **Educational attainment not modeled.** Adding a measure such as share of adults without a high school diploma would improve model specification and is a proposed extension.
 """)
 
@@ -678,8 +680,8 @@ Across 1,022 US counties (2017-2021):
     st.markdown("""
 County-level establishment growth (2017-2021, Census County Business Patterns) was added as a test of whether
 local economic growth helps or hurts community health. Growth predicts both worse air quality and better
-socioeconomic conditions; the socioeconomic pathway dominates in magnitude, and the net effect on health
-varies by chronic condition rather than running in one direction. See the **Economic Growth** tab.
+socioeconomic conditions; the socioeconomic pathway dominates in magnitude. Overall, growth goes with lower
+disease for all eight outcomes, while the remaining direct effect varies by chronic condition. See the **Economic Growth** tab.
 """)
 
     st.subheader("Proposed extensions")
