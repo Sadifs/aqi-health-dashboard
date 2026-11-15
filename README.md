@@ -50,10 +50,11 @@ python fetch_growth_data.py
 streamlit run app.py
 ```
 
-> Note: `build_data.py` reads the source EPA and PLACES files (not included due to size),
-> merges Census SAIPE poverty and income data, and writes `data/final_data.csv`. `fetch_growth_data.py` then
-> adds county-level establishment growth (2017-2021) from Census County Business Patterns.
-> (`prepare_data.py` is an earlier ACS-based version kept for reference.)
+> Note: `prepare_data.py` originally merged the source EPA and PLACES files (not included due to size)
+> into `data/final_data.csv`; its Census ACS step was later replaced. `build_data.py` adds Census SAIPE 2021
+> poverty and income to that file, and `fetch_growth_data.py` adds county-level establishment growth
+> (2017-2021) from Census County Business Patterns. Because the raw EPA and PLACES files are not in the repo,
+> the included `data/final_data.csv` is the starting point for reproducing the dashboard.
 
 ## Health outcomes
 

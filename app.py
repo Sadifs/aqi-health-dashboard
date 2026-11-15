@@ -291,7 +291,8 @@ with tab_find:
 with tab_map:
     st.subheader("Geographic distribution")
     st.markdown(
-        "High poverty, high pollution, and high disease burden often co-occur in the same counties. "
+        "High poverty and high chronic disease burden often appear in the same counties, while air quality "
+        "follows a different geographic pattern. "
         "Use the selector below to explore each layer individually."
     )
 
@@ -398,10 +399,10 @@ with tab_clust:
 
         st.markdown("""
 **Low-burden:** Higher incomes, lower poverty, lower disease rates.
-Pollution exposure is moderate to low.
+Air quality is similar to high-burden counties.
 
-**Mid-burden:** Middle-income counties with intermediate health and pollution outcomes.
-The most geographically dispersed group, with intermediate health and pollution outcomes.
+**Mid-burden:** Middle-income counties with intermediate health outcomes.
+The cleanest air of the three groups (lowest median AQI).
 
 **High-burden:** Lower incomes, higher poverty rates, and elevated chronic disease prevalence.
 More than half are in the South, including Appalachia; the rest are spread across other regions, led by rural California, Ohio, and Indiana.
