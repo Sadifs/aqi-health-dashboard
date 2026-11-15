@@ -8,7 +8,7 @@ Interactive county-level analysis of air pollution exposure, socioeconomic condi
 
 Air quality (county median AQI) alone explains near-zero variance in county-level chronic disease burden (R-squared 0.00 to 0.04). Adding two socioeconomic controls, poverty rate and median household income, raises R-squared to 0.32-0.69 across all eight health outcomes (a gain of 31 to 67 percentage points). Poverty, not pollution exposure, is the primary predictor of chronic disease at the county level.
 
-**Extension:** does local economic growth help or hurt this picture? County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty conditions, confirming two real, competing channels. The income/poverty channel is about 15 to 120 times larger in magnitude. Overall, growth goes with lower prevalence of all eight outcomes. Holding AQI, income, and poverty constant, the remaining direct effect is mixed: lower asthma, COPD, and smoking, but higher diabetes, stroke, and poor physical health, with no significant direct effect on heart disease or mental health.
+**Extension:** does local economic growth help or hurt this picture? County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty conditions, consistent with two competing channels. The income/poverty channel is about 15 to 120 times larger in magnitude. Overall, growth goes with lower prevalence of all eight outcomes. Holding AQI, income, and poverty constant, the remaining direct effect is mixed: lower asthma, COPD, and smoking, but higher diabetes, stroke, and poor physical health, with no significant direct effect on heart disease or mental health.
 
 ## Dashboard tabs
 
@@ -24,7 +24,7 @@ Air quality (county median AQI) alone explains near-zero variance in county-leve
 | Source | Description | Coverage |
 |--------|-------------|----------|
 | [EPA Air Quality System](https://www.epa.gov/outdoor-air-quality-data) | Annual county-level AQI, PM2.5, ozone, NO2 monitoring data (2017-2021) | 1,061 monitored counties |
-| [CDC PLACES](https://www.cdc.gov/places/) | County-level prevalence estimates for 27 chronic conditions (2018-2021; 2020-2023 releases, mean of crude and age-adjusted) | 3,144 counties |
+| [CDC PLACES](https://www.cdc.gov/places/) | County-level prevalence estimates for chronic diseases and health-related measures (2018-2021; 2020-2023 releases, mean of crude and age-adjusted) | 3,144 counties |
 | [US Census SAIPE](https://www.census.gov/programs-surveys/saipe.html) | County median household income and poverty rate (2021) | All US counties |
 | [US Census County Business Patterns](https://www.census.gov/programs-surveys/cbp.html) | County-level establishment counts, used as an economic growth proxy | 2017, 2021 |
 

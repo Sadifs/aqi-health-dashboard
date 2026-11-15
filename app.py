@@ -475,7 +475,7 @@ with tab_growth:
     st.markdown(
         "Local economic growth could plausibly cut both ways: more industrial and commercial activity may "
         "worsen air quality, while the added income and jobs may improve the socioeconomic conditions that "
-        "drive most of the disease burden seen in the Core Finding tab. County-level establishment counts "
+        "account for most of the variation in disease burden seen in the Core Finding tab. County-level establishment counts "
         "(2017 and 2021) from the U.S. Census Bureau's **County Business Patterns** are used here as a proxy "
         "for local economic growth, merged into the dataset by FIPS code and winsorized at the 1st/99th "
         "percentiles."
@@ -491,8 +491,8 @@ with tab_growth:
     g3.metric("Growth → Poverty Rate (per 10-pt growth)", f"{pov_b*100/10:+.2f} pts", help=f"p = {pov_p:.4f}")
 
     st.caption(
-        "Growth is associated with both worse air quality and better socioeconomic conditions, confirming "
-        "both hypothesized channels are real. The question is which one dominates for a given health outcome."
+        "Growth is associated with both worse air quality and better socioeconomic conditions, consistent with "
+        "both hypothesized channels. The question is which one dominates for a given health outcome."
     )
 
     st.divider()
@@ -632,7 +632,7 @@ with tab_methods:
 | Source | Description | Years | Coverage |
 |--------|-------------|-------|----------|
 | [EPA Air Quality System](https://www.epa.gov/aqs) | County-level AQI, PM2.5, ozone, NO2 monitoring data | 2017-2021 | 1,061 monitored counties |
-| [CDC PLACES](https://www.cdc.gov/places) | County-level prevalence estimates for 27 chronic conditions | 2018-2021 (2020-2023 releases) | 3,144 counties |
+| [CDC PLACES](https://www.cdc.gov/places) | County-level prevalence estimates for chronic diseases and health-related measures | 2018-2021 (2020-2023 releases) | 3,144 counties |
 | [Census SAIPE 2021](https://www.census.gov/programs-surveys/saipe.html) | County-level poverty rate and median household income estimates | 2021 | All US counties |
 | [Census County Business Patterns](https://www.census.gov/programs-surveys/cbp.html) | County-level establishment counts, used as an economic growth proxy | 2017, 2021 | All US counties |
 
@@ -650,6 +650,8 @@ Socioeconomic controls sourced from SAIPE (Small Area Income and Poverty Estimat
 **Partial regression plots (Core Finding tab):** Each axis shows residuals after removing the linear effect of poverty rate and median income, isolating the AQI-health relationship net of those socioeconomic controls.
 
 **K-means clustering:** Features: Median AQI, median household income (SAIPE 2021), poverty rate (SAIPE 2021). Standardized before clustering. k=3 retained from the underlying BSAN 6050 project; on the current data the within-cluster sum of squares curve has no sharp elbow, so k=3 is a practical choice for interpretability. Clusters labeled by ascending poverty rate.
+
+**Economic growth models:** Growth is the 2017-2021 percent change in establishments (County Business Patterns), winsorized at the 1st/99th percentiles. Growth-path and mediation models are OLS with heteroskedasticity-robust (HC1) standard errors; indirect effects use the product-of-coefficients method.
 """)
 
     st.subheader("Key findings summary")
@@ -662,7 +664,7 @@ Across 1,022 US counties (2017-2021):
 
 3. **Three structurally distinct community types exist.** K-means clustering identifies low-burden (higher income, lower poverty), mid-burden, and high-burden (lower income, higher poverty, higher disease) county profiles that are geographically concentrated but appear in every region of the country.
 
-4. **Implication for policy.** Interventions targeting air quality improvements alone, without addressing the underlying socioeconomic conditions that concentrate disease burden, are unlikely to reduce chronic disease disparities at the population level.
+4. **Implication.** At the county level, air quality alone is a weak marker of where chronic disease concentrates, while poverty and income are strong markers. Because the design is cross-sectional, this does not mean that improving air quality has no health benefit.
 
 5. **Economic growth cuts both ways.** County-level establishment growth (Census County Business Patterns, 2017-2021) predicts both worse air quality and better income/poverty outcomes. The socioeconomic pathway is about 15 to 120 times larger in magnitude. Overall, growth goes with lower disease for all eight outcomes; after holding AQI, income, and poverty constant, the remaining direct effect is mixed by condition. See the Economic Growth tab.
 """)
