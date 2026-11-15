@@ -405,7 +405,7 @@ Air quality is similar to high-burden counties.
 The cleanest air of the three groups (lowest median AQI).
 
 **High-burden:** Lower incomes, higher poverty rates, and elevated chronic disease prevalence.
-More than half are in the South, including Appalachia; the rest are spread across other regions, led by rural California, Ohio, and Indiana.
+More than half are in the South, including Appalachia; the rest are spread across other regions, led by inland and northern California, Ohio, and Indiana.
 """)
 
     st.divider()
@@ -649,7 +649,7 @@ Socioeconomic controls sourced from SAIPE (Small Area Income and Poverty Estimat
 
 **Partial regression plots (Core Finding tab):** Each axis shows residuals after removing the linear effect of poverty rate and median income, isolating the AQI-health relationship net of those socioeconomic controls.
 
-**K-means clustering:** Features: Median AQI, median household income (SAIPE 2021), poverty rate (SAIPE 2021). Standardized before clustering. k=3 selected based on within-cluster sum of squares elbow analysis from the underlying BSAN 6050 project. Clusters labeled by ascending poverty rate.
+**K-means clustering:** Features: Median AQI, median household income (SAIPE 2021), poverty rate (SAIPE 2021). Standardized before clustering. k=3 retained from the underlying BSAN 6050 project; on the current data the within-cluster sum of squares curve has no sharp elbow, so k=3 is a practical choice for interpretability. Clusters labeled by ascending poverty rate.
 """)
 
     st.subheader("Key findings summary")

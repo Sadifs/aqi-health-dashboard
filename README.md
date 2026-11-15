@@ -55,6 +55,7 @@ streamlit run app.py
 > poverty and income to that file, and `fetch_growth_data.py` adds county-level establishment growth
 > (2017-2021) from Census County Business Patterns. Because the raw EPA and PLACES files are not in the repo,
 > the included `data/final_data.csv` is the starting point for reproducing the dashboard.
+> `moderation_analysis.py` reproduces the poverty moderation results shared in the research update (not shown on the dashboard).
 
 ## Health outcomes
 
