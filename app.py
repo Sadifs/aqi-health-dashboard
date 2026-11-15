@@ -404,7 +404,7 @@ Pollution exposure is moderate to low.
 The most geographically dispersed group, with intermediate health and pollution outcomes.
 
 **High-burden:** Lower incomes, higher poverty rates, and elevated chronic disease prevalence.
-About half are in the South, including Appalachia; many others are in rural California.
+More than half are in the South, including Appalachia; the rest are spread across other regions, led by rural California, Ohio, and Indiana.
 """)
 
     st.divider()
