@@ -197,7 +197,7 @@ with tab_find:
             height=380, margin=dict(l=20, r=20, t=30, b=20),
             showlegend=True,
         )
-        st.plotly_chart(fig_s, use_container_width=True)
+        st.plotly_chart(fig_s, width="stretch")
 
     # RIGHT: adjusted
     with col_right:
@@ -241,7 +241,7 @@ with tab_find:
             yaxis_title=f"{outcome_label} residuals",
             height=380, margin=dict(l=20, r=20, t=30, b=20),
         )
-        st.plotly_chart(fig_a, use_container_width=True)
+        st.plotly_chart(fig_a, width="stretch")
         st.caption(
             "Partial regression plot: variation in each variable after removing the linear "
             "effect of poverty rate and median income. Color indicates county poverty rate. "
@@ -277,14 +277,14 @@ with tab_find:
         margin=dict(l=20, r=20, t=40, b=20),
         yaxis_range=[0, 1],
     )
-    st.plotly_chart(fig_r2, use_container_width=True)
+    st.plotly_chart(fig_r2, width="stretch")
 
     display_table = reg_table.rename(columns={
         "Simple R2": "R2 (AQI only)",
         "Adjusted R2": "R2 (SES-adjusted)",
         "R2 Gain": "R2 gain from SES",
     })
-    st.dataframe(display_table.reset_index(drop=True), use_container_width=True)
+    st.dataframe(display_table.reset_index(drop=True), width="stretch")
 
 # ── TAB 2: MAP ────────────────────────────────────────────────────────────────
 
@@ -317,7 +317,7 @@ with tab_map:
         coloraxis_colorbar=dict(title=map_label, thickness=15),
         height=540,
     )
-    st.plotly_chart(fig_map, use_container_width=True)
+    st.plotly_chart(fig_map, width="stretch")
 
     col_a, col_b = st.columns(2)
     with col_a:
@@ -325,13 +325,13 @@ with tab_map:
         top10 = (map_df.sort_values(map_col, ascending=False)
                  [["county_label","state_label",map_col]].head(10)
                  .rename(columns={"county_label":"County","state_label":"State",map_col:map_label}))
-        st.dataframe(top10.reset_index(drop=True), use_container_width=True)
+        st.dataframe(top10.reset_index(drop=True), width="stretch")
     with col_b:
         st.markdown("**Bottom 10 counties (lowest values)**")
         bot10 = (map_df.sort_values(map_col, ascending=True)
                  [["county_label","state_label",map_col]].head(10)
                  .rename(columns={"county_label":"County","state_label":"State",map_col:map_label}))
-        st.dataframe(bot10.reset_index(drop=True), use_container_width=True)
+        st.dataframe(bot10.reset_index(drop=True), width="stretch")
 
 # ── TAB 3: CLUSTERS ───────────────────────────────────────────────────────────
 
@@ -379,7 +379,7 @@ with tab_clust:
             legend=dict(title="Community type", orientation="v"),
             margin=dict(l=20, r=20, t=20, b=20),
         )
-        st.plotly_chart(fig_cl, use_container_width=True)
+        st.plotly_chart(fig_cl, width="stretch")
         st.caption("Bubble size = poverty rate. Each bubble is one US county.")
 
     with col_r:
@@ -395,7 +395,7 @@ with tab_clust:
                    ).round(1))
         profile.columns = ["Counties", "Avg AQI", "Avg Income ($k)", "Poverty (%)",
                            "COPD (%)", "Diabetes (%)"]
-        st.dataframe(profile, use_container_width=True)
+        st.dataframe(profile, width="stretch")
 
         st.markdown("""
 **Low-burden:** Higher incomes, lower poverty, lower disease rates.
@@ -433,7 +433,7 @@ More than half are in the South, including Appalachia; the rest are spread acros
         margin=dict(l=0, r=0, t=10, b=0), height=460,
         coloraxis_showscale=False,
     )
-    st.plotly_chart(fig_cm, use_container_width=True)
+    st.plotly_chart(fig_cm, width="stretch")
     st.caption("Green = Low-burden, Yellow = Mid-burden, Red = High-burden communities.")
 
 # ── TAB: ECONOMIC GROWTH ──────────────────────────────────────────────────────
@@ -517,7 +517,7 @@ with tab_growth:
         height=380, margin=dict(l=20, r=20, t=30, b=20),
         legend=dict(orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
     )
-    st.plotly_chart(fig_g, use_container_width=True)
+    st.plotly_chart(fig_g, width="stretch")
     st.caption(
         "The income/poverty pathway is about 15 to 120 times larger in magnitude than the air "
         "quality pathway across all eight outcomes."
@@ -529,7 +529,7 @@ with tab_growth:
         lambda v: "Higher disease" if v > 0 else "Lower disease"
     )
     direct_display["Significant (p<.05)"] = direct_display["Direct p"] < 0.05
-    st.dataframe(direct_display.round(4).reset_index(drop=True), use_container_width=True)
+    st.dataframe(direct_display.round(4).reset_index(drop=True), width="stretch")
     st.markdown(
         "Overall (total effect), growth is associated with significantly lower prevalence of all eight "
         "outcomes, and for seven of the eight, most of that benefit runs through higher income and lower "
@@ -615,7 +615,7 @@ with tab_explore:
         ))
 
     fig_ex.update_layout(margin=dict(l=20, r=20, t=20, b=20))
-    st.plotly_chart(fig_ex, use_container_width=True)
+    st.plotly_chart(fig_ex, width="stretch")
 
     if x_col != c_col and y_col != c_col:
         e1, e2, e3, e4 = st.columns(4)
