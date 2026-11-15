@@ -687,7 +687,7 @@ disease for all eight outcomes, while the remaining direct effect varies by chro
     st.subheader("Proposed extensions")
     st.markdown("""
 1. **Behavioral and access mediators.** Add Google Trends search volume for health-related terms (smoking, fast food, mental health) and CMS/HRSA measures of healthcare access as mediating variables between SES and health outcomes.
-2. **Longitudinal panel analysis.** Test whether counties that improved AQI between 2017 and 2022 saw corresponding health improvements, and whether improvement was moderated by SES level (interaction between AQI change and poverty rate).
+2. **Longitudinal panel analysis.** Test whether counties that improved AQI between 2017 and 2021 saw corresponding health improvements, and whether improvement was moderated by SES level (interaction between AQI change and poverty rate).
 3. **Spatial regression.** Apply a spatial lag or spatial error model to account for geographic autocorrelation in both pollution and health outcomes.
 4. **Sub-county resolution.** Expand to ZIP code or census tract level using CDC PLACES tract-level data and EPA monitoring interpolation.
     """)
