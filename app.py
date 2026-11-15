@@ -532,7 +532,8 @@ with tab_growth:
     st.dataframe(direct_display.round(4).reset_index(drop=True), use_container_width=True)
     st.markdown(
         "Overall (total effect), growth is associated with significantly lower prevalence of all eight "
-        "outcomes, and most of that benefit runs through higher income and lower poverty. Holding AQI, "
+        "outcomes, and for seven of the eight, most of that benefit runs through higher income and lower "
+        "poverty. Holding AQI, "
         "income, and poverty constant, the remaining direct effect is mixed: significantly lower asthma, "
         "COPD, and smoking, but significantly higher diabetes, stroke, and poor physical health, with no "
         "significant direct effect on heart disease or mental health."
